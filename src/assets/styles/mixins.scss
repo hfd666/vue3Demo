@@ -1,0 +1,154 @@
+// 导入变量
+@use './variables.scss' as vars;
+
+// SCSS 混入文件
+// Global SCSS Mixins
+
+// 清除浮动 / Clearfix
+@mixin clearfix {
+  &::after {
+    content: '';
+    display: table;
+    clear: both;
+  }
+}
+
+// 文本省略 / Text Ellipsis
+@mixin ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+// 多行文本省略 / Multi-line Text Ellipsis
+@mixin ellipsis-multiline($lines: 2) {
+  display: -webkit-box;
+  -webkit-line-clamp: $lines;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+// 居中对齐 / Center Alignment
+@mixin center-flex {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+// 垂直居中 / Vertical Center
+@mixin vertical-center {
+  display: flex;
+  align-items: center;
+}
+
+// 水平居中 / Horizontal Center
+@mixin horizontal-center {
+  display: flex;
+  justify-content: center;
+}
+
+// 绝对定位居中 / Absolute Center
+@mixin absolute-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+// 响应式断点 / Responsive Breakpoints
+@mixin respond-to($breakpoint) {
+  @if $breakpoint == xs {
+    @media (max-width: #{vars.$breakpoint-xs - 1px}) {
+      @content;
+    }
+  }
+  @if $breakpoint == sm {
+    @media (min-width: #{vars.$breakpoint-xs}) and (max-width: #{vars.$breakpoint-sm - 1px}) {
+      @content;
+    }
+  }
+  @if $breakpoint == md {
+    @media (min-width: #{vars.$breakpoint-sm}) and (max-width: #{vars.$breakpoint-md - 1px}) {
+      @content;
+    }
+  }
+  @if $breakpoint == lg {
+    @media (min-width: #{vars.$breakpoint-md}) and (max-width: #{vars.$breakpoint-lg - 1px}) {
+      @content;
+    }
+  }
+  @if $breakpoint == xl {
+    @media (min-width: #{vars.$breakpoint-lg}) {
+      @content;
+    }
+  }
+}
+
+// 按钮样式 / Button Styles（使用现代的 color-mix 函数）
+@mixin button-variant($color, $background, $border) {
+  color: $color;
+  background-color: $background;
+  border-color: $border;
+
+  &:hover,
+  &:focus {
+    color: $color;
+    background-color: color-mix(in srgb, $background 90%, black 10%);
+    border-color: color-mix(in srgb, $border 88%, black 12%);
+  }
+
+  &:active {
+    color: $color;
+    background-color: color-mix(in srgb, $background 88%, black 12%);
+    border-color: color-mix(in srgb, $border 88%, black 12%);
+  }
+}
+
+// 卡片样式 / Card Styles
+@mixin card {
+  background: vars.$bg-color;
+  border: 1px solid vars.$border-light;
+  border-radius: vars.$border-radius-md;
+  box-shadow: vars.$box-shadow-light;
+  padding: vars.$spacing-lg;
+}
+
+// 输入框样式 / Input Styles
+@mixin input-base {
+  display: inline-block;
+  width: 100%;
+  padding: vars.$spacing-sm vars.$spacing-md;
+  font-size: vars.$font-size-sm;
+  line-height: 1.5;
+  color: vars.$text-regular;
+  background-color: vars.$bg-color;
+  border: 1px solid vars.$border-base;
+  border-radius: vars.$border-radius-md;
+  transition: border-color 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
+
+  &:focus {
+    outline: none;
+    border-color: vars.$primary-color;
+  }
+
+  &::placeholder {
+    color: vars.$text-placeholder;
+  }
+}
+
+// 动画过渡 / Animation Transitions
+@mixin transition($property: all, $duration: 0.3s, $timing: ease) {
+  transition: $property $duration $timing;
+}
+
+// 阴影效果 / Shadow Effects
+@mixin shadow($level: 1) {
+  @if $level == 1 {
+    box-shadow: vars.$box-shadow-light;
+  } @else if $level == 2 {
+    box-shadow: vars.$box-shadow-base;
+  } @else if $level == 3 {
+    box-shadow: vars.$box-shadow-dark;
+  }
+}

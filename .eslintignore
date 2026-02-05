@@ -1,0 +1,14 @@
+# Verification scripts
+verify-*.js
+verify-*.cjs
+
+# Auto-generated files
+src/types/auto-imports.d.ts
+src/types/components.d.ts
+
+# Build output
+dist/
+dist-ssr/
+
+# Dependencies
+node_modules/
