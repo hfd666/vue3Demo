@@ -20,45 +20,50 @@ import './assets/styles/main.scss'
 import {
   // 路由中使用的图标
   House,
-  DataBoard,
-  User,
-  Setting,
-  Document,
-  // Home.vue 中使用的图标
+  Grid,
+  MessageBox,
+  Upload,
+  // 组件示例中使用的图标
   Plus,
-  View,
+  Download,
+  Refresh,
   Edit,
   Delete,
+  WarningFilled,
+  FullScreen,
+  View,
   // 侧边栏中使用的图标
   Expand,
   Fold,
-  // Dashboard.vue 中使用的图标
-  ArrowDown,
-  TrendCharts,
-  // LayoutHeader.vue 中使用的图标
-  Grid,
-  FullScreen,
-  SwitchButton
+  SwitchButton,
+  // 登录页面使用的图标
+  User,
+  Lock,
+  Picture,
+  Loading
 } from '@element-plus/icons-vue'
 
 // 需要全局注册的图标列表
 const iconsToRegister = {
   House,
-  DataBoard,
-  User,
-  Setting,
-  Document,
+  Grid,
+  MessageBox,
+  Upload,
   Plus,
-  View,
+  Download,
+  Refresh,
   Edit,
   Delete,
+  WarningFilled,
+  FullScreen,
+  View,
   Expand,
   Fold,
-  ArrowDown,
-  TrendCharts,
-  Grid,
-  FullScreen,
-  SwitchButton
+  SwitchButton,
+  User,
+  Lock,
+  Picture,
+  Loading
 }
 
 /**
@@ -93,7 +98,7 @@ const validateEnv = (): void => {
 /**
  * 创建并配置 Vue 应用实例
  */
-const createVueApp = () => {
+const createVueApp = async () => {
   // 验证环境变量
   validateEnv()
 
@@ -113,11 +118,19 @@ const createVueApp = () => {
   app.config.globalProperties.$messageBox = ElMessageBox
   app.config.globalProperties.$notify = ElNotification
 
+  // 注册状态管理（必须在路由之前注册，因为路由守卫需要使用 store）
+  app.use(pinia)
+
+  // 初始化认证状态（在路由挂载前，防止页面闪烁）
+  const { useUserStore } = await import('./stores/user')
+  const userStore = useUserStore()
+  userStore.initAuthState()
+
   // 注册路由
   app.use(router)
 
-  // 注册状态管理
-  app.use(pinia)
+  // 等待路由准备就绪
+  await router.isReady()
 
   // // 全局错误处理
   // app.config.errorHandler = (err, instance, info) => {

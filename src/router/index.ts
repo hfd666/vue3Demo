@@ -5,12 +5,41 @@
 
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 import { markRaw } from 'vue'
-import { House, DataBoard, User, Setting, Document } from '@element-plus/icons-vue'
+import { House, Grid, MessageBox, Upload } from '@element-plus/icons-vue'
+import { ElMessage } from 'element-plus'
+import { useUserStore } from '@/stores/user'
+
+/**
+ * 扩展路由元信息类型
+ */
+declare module 'vue-router' {
+  interface RouteMeta {
+    title?: string
+    icon?: any
+    requiresAuth?: boolean
+    permissions?: string[]
+    roles?: string[]
+    hidden?: boolean
+    layout?: 'default' | 'blank'
+    order?: number
+  }
+}
 
 /**
  * 路由配置列表
  */
 const routes: RouteRecordRaw[] = [
+  {
+    path: '/login',
+    name: 'Login',
+    component: () => import('@/views/Login.vue'),
+    meta: {
+      title: '登录',
+
+      hidden: true, // 在菜单中隐藏
+      layout: 'blank' // 不使用布局
+    }
+  },
   {
     path: '/',
     name: 'Home',
@@ -18,179 +47,38 @@ const routes: RouteRecordRaw[] = [
     meta: {
       title: '首页',
       icon: markRaw(House),
-      requiresAuth: false,
       order: 1
     }
   },
   {
-    path: '/dashboard',
-    name: 'Dashboard',
-    component: () => import('@/views/Dashboard.vue'),
+    path: '/table-demo',
+    name: 'TableDemo',
+    component: () => import('@/views/demos/TableDemo.vue'),
     meta: {
-      title: '仪表盘',
-      icon: markRaw(DataBoard),
-      requiresAuth: true,
+      title: '表格示例',
+      icon: markRaw(Grid),
       order: 2
-    },
-    children: [
-      {
-        path: 'analytics',
-        name: 'DashboardAnalytics',
-        component: () => import('@/views/dashboard/Analytics.vue'),
-        meta: {
-          title: '数据分析',
-          requiresAuth: true,
-          order: 1
-        }
-      },
-      {
-        path: 'monitor',
-        name: 'DashboardMonitor',
-        component: () => import('@/views/dashboard/Monitor.vue'),
-        meta: {
-          title: '系统监控',
-          requiresAuth: true,
-          order: 2
-        }
-      }
-    ]
+    }
   },
   {
-    path: '/user',
-    name: 'User',
-    redirect: '/user/list',
+    path: '/dialog-demo',
+    name: 'DialogDemo',
+    component: () => import('@/views/demos/DialogDemo.vue'),
     meta: {
-      title: '用户管理',
-      icon: markRaw(User),
-      requiresAuth: true,
-      permission: 'user:view',
+      title: '弹窗示例',
+      icon: markRaw(MessageBox),
       order: 3
-    },
-    children: [
-      {
-        path: 'list',
-        name: 'UserList',
-        component: () => import('@/views/user/List.vue'),
-        meta: {
-          title: '用户列表',
-          requiresAuth: true,
-          permission: 'user:list',
-          order: 1
-        }
-      },
-      {
-        path: 'roles',
-        name: 'UserRoles',
-        component: () => import('@/views/user/Roles.vue'),
-        meta: {
-          title: '角色管理',
-          requiresAuth: true,
-          permission: 'user:roles',
-          order: 2
-        }
-      },
-      {
-        path: 'permissions',
-        name: 'UserPermissions',
-        component: () => import('@/views/user/Permissions.vue'),
-        meta: {
-          title: '权限管理',
-          requiresAuth: true,
-          permission: 'user:permissions',
-          order: 3
-        }
-      }
-    ]
+    }
   },
   {
-    path: '/system',
-    name: 'System',
-    redirect: '/system/settings',
+    path: '/upload-demo',
+    name: 'UploadDemo',
+    component: () => import('@/views/demos/UploadDemo.vue'),
     meta: {
-      title: '系统管理',
-      icon: markRaw(Setting),
-      requiresAuth: true,
-      permission: 'system:view',
+      title: '上传示例',
+      icon: markRaw(Upload),
       order: 4
-    },
-    children: [
-      {
-        path: 'settings',
-        name: 'SystemSettings',
-        component: () => import('@/views/system/Settings.vue'),
-        meta: {
-          title: '系统设置',
-          requiresAuth: true,
-          permission: 'system:settings',
-          order: 1
-        }
-      },
-      {
-        path: 'logs',
-        name: 'SystemLogs',
-        component: () => import('@/views/system/Logs.vue'),
-        meta: {
-          title: '系统日志',
-          requiresAuth: true,
-          permission: 'system:logs',
-          order: 2
-        }
-      },
-      {
-        path: 'backup',
-        name: 'SystemBackup',
-        component: () => import('@/views/system/Backup.vue'),
-        meta: {
-          title: '数据备份',
-          requiresAuth: true,
-          permission: 'system:backup',
-          order: 3
-        }
-      }
-    ]
-  },
-  {
-    path: '/docs',
-    name: 'Docs',
-    redirect: '/docs/api',
-    meta: {
-      title: '开发文档',
-      icon: markRaw(Document),
-      requiresAuth: true,
-      order: 5
-    },
-    children: [
-      {
-        path: 'api',
-        name: 'DocsApi',
-        component: () => import('@/views/docs/Api.vue'),
-        meta: {
-          title: 'API 文档',
-          requiresAuth: true,
-          order: 1
-        }
-      },
-      {
-        path: 'components',
-        name: 'DocsComponents',
-        component: () => import('@/views/docs/Components.vue'),
-        meta: {
-          title: '组件文档',
-          requiresAuth: true,
-          order: 2
-        }
-      },
-      {
-        path: 'guide',
-        name: 'DocsGuide',
-        component: () => import('@/views/docs/Guide.vue'),
-        meta: {
-          title: '开发指南',
-          requiresAuth: true,
-          order: 3
-        }
-      }
-    ]
+    }
   },
   {
     path: '/:pathMatch(.*)*',
@@ -198,8 +86,8 @@ const routes: RouteRecordRaw[] = [
     component: () => import('@/views/NotFound.vue'),
     meta: {
       title: '页面未找到',
-      requiresAuth: false,
-      hidden: true // 在菜单中隐藏
+      hidden: true, // 在菜单中隐藏
+      layout: 'blank' // 不使用布局
     }
   }
 ]
@@ -215,34 +103,74 @@ const router = createRouter({
 /**
  * 全局前置守卫
  * 在路由跳转前执行权限验证和其他逻辑
+ *
+ * 策略：默认所有页面都需要登录，白名单中的页面除外（管理系统标准做法）
  */
-router.beforeEach((to, from, next) => {
+router.beforeEach((to, _from, next) => {
+  // 获取用户状态（已在 main.ts 中初始化）
+  const userStore = useUserStore()
+
   // 设置页面标题
-  if (to.meta.title) {
-    document.title = `${to.meta.title} - ${import.meta.env.VITE_APP_TITLE}`
-  } else {
-    document.title = import.meta.env.VITE_APP_TITLE
+  const pageTitle = to.meta.title
+    ? `${to.meta.title} - ${import.meta.env.VITE_APP_TITLE}`
+    : import.meta.env.VITE_APP_TITLE
+  document.title = pageTitle
+
+  // 白名单：不需要登录即可访问的页面
+  const whiteList = ['/login', '/register', '/forgot-password']
+  const isInWhiteList = whiteList.includes(to.path)
+
+  // 特殊页面：404 页面不需要登录即可访问
+  const isSpecialPage = to.name === 'NotFound'
+
+  // 获取登录状态
+  const isLoggedIn = userStore.isLoggedIn && Boolean(userStore.token)
+
+  // 1. 如果已登录且访问登录页，重定向到目标页面或首页
+  if (to.path === '/login' && isLoggedIn) {
+    const redirect = (to.query.redirect as string) || '/'
+    next(redirect)
+    return
   }
 
-  // 权限验证（这里是演示，实际项目中需要根据具体需求实现）
-  if (to.meta.requiresAuth) {
-    // 检查用户是否已登录
-    const isLoggedIn = localStorage.getItem('auth-token') || true // 演示用，实际应该检查真实的登录状态
+  // 2. 如果未登录且不在白名单中（且不是特殊页面），跳转登录页
+  if (!isLoggedIn && !isInWhiteList && !isSpecialPage) {
+    ElMessage.warning('请先登录')
+    next({
+      path: '/login',
+      query: { redirect: to.fullPath }
+    })
+    return
+  }
 
-    if (!isLoggedIn) {
-      // 未登录，重定向到登录页
-      ElMessage.warning('请先登录')
-      next('/login')
-      return
+  // 3. 已登录，检查权限
+  if (isLoggedIn) {
+    // 检查页面权限
+    const requiredPermissions = (to.meta.permissions as string[]) || []
+    if (requiredPermissions.length > 0) {
+      const hasPermission = requiredPermissions.some(permission =>
+        userStore.hasPermission(permission)
+      )
+      if (!hasPermission) {
+        ElMessage.error('您没有访问该页面的权限')
+        next({ path: '/', replace: true })
+        return
+      }
+    }
+
+    // 检查角色
+    const requiredRoles = (to.meta.roles as string[]) || []
+    if (requiredRoles.length > 0) {
+      const hasRole = requiredRoles.some(role => userStore.hasRole(role))
+      if (!hasRole) {
+        ElMessage.error('您没有访问该页面的权限')
+        next({ path: '/', replace: true })
+        return
+      }
     }
   }
 
-  // 路由变化时的加载提示（可选）
-  if (to.path !== from.path) {
-    // 可以在这里添加页面加载提示
-    // ElLoading.service({ text: '页面加载中...' })
-  }
-
+  // 4. 通过所有检查，允许访问
   next()
 })
 
@@ -250,13 +178,10 @@ router.beforeEach((to, from, next) => {
  * 全局后置守卫
  * 在路由跳转完成后执行
  */
-router.afterEach((to, from) => {
-  // 关闭加载提示
-  // ElLoading.service().close()
-
+router.afterEach(to => {
   // 页面访问统计（可选）
   if (import.meta.env.DEV) {
-    console.log(`路由跳转: ${from.path} -> ${to.path}`)
+    console.log(`当前路由: ${to.path}`)
   }
 })
 

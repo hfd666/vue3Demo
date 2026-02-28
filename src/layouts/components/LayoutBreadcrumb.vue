@@ -17,6 +17,7 @@
 
 <script setup lang="ts">
 import { House } from '@element-plus/icons-vue'
+import { markRaw } from 'vue'
 import type { BreadcrumbItem } from '@/types'
 
 /**
@@ -35,7 +36,7 @@ const breadcrumbItems = computed<BreadcrumbItem[]>(() => {
     items.push({
       path: '/',
       title: '首页',
-      icon: House
+      icon: markRaw(House)
     })
   }
 

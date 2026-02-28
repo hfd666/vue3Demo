@@ -8,14 +8,12 @@
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse, AxiosError } from 'axios'
 import { ElMessage } from 'element-plus'
 import type { ApiResponse, RequestConfig } from '@/types/api'
+import { redirectToLogin } from './auth'
 
 // 从环境变量读取 API 基础地址
-const baseURL = import.meta.env.VITE_API_BASE_URL || '/api'
-
-// 验证环境变量
-if (!import.meta.env.VITE_API_BASE_URL) {
-  console.warn('警告: VITE_API_BASE_URL 环境变量未定义，使用默认值 "/api"')
-}
+// 开发环境使用相对路径 /api，通过 Vite 代理转发
+// 生产环境使用完整的后端地址
+const baseURL = import.meta.env.DEV ? '/api' : import.meta.env.VITE_API_BASE_URL || '/api'
 
 // 创建 axios 实例
 // 这就像创建一个专门用来发请求的工具
@@ -38,11 +36,21 @@ function getAuthToken(): string | null {
 }
 
 /**
+ * 处理未授权错误（401）
+ * 清除登录状态并跳转到登录页
+ */
+function handleUnauthorized() {
+  // 使用统一的跳转登录函数
+  redirectToLogin('登录已过期，请重新登录')
+}
+
+/**
  * 处理各种错误情况
  * 当请求出错时，给用户显示友好的错误提示
  */
 function handleRequestError(error: AxiosError): Promise<never> {
   let errorMessage = '请求失败'
+  let shouldShowMessage = true
 
   if (error.response) {
     // 服务器有响应，但是返回了错误状态码
@@ -54,12 +62,12 @@ function handleRequestError(error: AxiosError): Promise<never> {
         errorMessage = '请求参数错误'
         break
       case 401:
-        errorMessage = '未授权，请重新登录'
-        // 这里可以跳转到登录页面
-        // window.location.href = '/login'
+        // 未授权，跳转登录页
+        handleUnauthorized()
+        shouldShowMessage = false // 已经在 handleUnauthorized 中显示了
         break
       case 403:
-        errorMessage = '拒绝访问'
+        errorMessage = '拒绝访问，您没有权限'
         break
       case 404:
         errorMessage = '请求的资源不存在'
@@ -85,7 +93,7 @@ function handleRequestError(error: AxiosError): Promise<never> {
 
     // 如果服务器返回了具体的错误消息，就用服务器的消息
     const serverMessage = (error.response.data as any)?.message
-    if (serverMessage) {
+    if (serverMessage && status !== 401) {
       errorMessage = serverMessage
     }
   } else if (error.request) {
@@ -98,7 +106,9 @@ function handleRequestError(error: AxiosError): Promise<never> {
   }
 
   // 显示错误提示给用户
-  ElMessage.error(errorMessage)
+  if (shouldShowMessage) {
+    ElMessage.error(errorMessage)
+  }
 
   // 返回一个失败的 Promise
   return Promise.reject(error)
@@ -112,8 +122,12 @@ axiosInstance.interceptors.request.use(
     const token = getAuthToken()
     if (token) {
       // 在请求头中添加令牌，就像在信封上贴邮票一样
-      config.headers.Authorization = `Bearer ${token}`
+      config.headers.Authorization = token
     }
+
+    // 添加项目相关请求头（必需，用于权限验证）
+    config.headers['Project-Id'] = '56'
+    config.headers['Project-Status'] = 'review'
 
     // 添加请求时间戳，记录请求发送的时间
     config.headers['X-Request-Time'] = Date.now().toString()

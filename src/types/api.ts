@@ -8,12 +8,14 @@
  * @template T - 响应数据的类型
  */
 export interface ApiResponse<T = any> {
-  /** 响应状态码 */
+  /** 响应状态码 (0 表示成功) */
   code: number
   /** 响应数据 */
   data: T
   /** 响应消息 */
-  message: string
+  message: string | null
+  /** 错误消息 */
+  errorMessage: string | null
 }
 
 /**
@@ -22,13 +24,13 @@ export interface ApiResponse<T = any> {
  */
 export interface PageResponse<T> {
   /** 数据列表 */
-  list: T[]
+  content: T[]
   /** 总记录数 */
   total: number
   /** 当前页码 */
   page: number
   /** 每页记录数 */
-  pageSize: number
+  size: number
 }
 
 /**

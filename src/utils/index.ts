@@ -9,6 +9,9 @@ export * from './request'
 // 环境变量相关
 export * from './env'
 
+// 认证相关
+export * from './auth'
+
 // 可以在这里添加其他工具函数的导出
 // export * from './format'
 // export * from './validation'

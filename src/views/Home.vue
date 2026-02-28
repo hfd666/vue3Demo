@@ -112,6 +112,7 @@ import {
   Edit,
   Delete
 } from '@element-plus/icons-vue'
+import { markRaw } from 'vue'
 import { ElMessageBox } from 'element-plus/es'
 
 // 手动导入自定义组件
@@ -142,25 +143,25 @@ const statsData = ref([
   {
     title: '总用户数',
     value: '1,234',
-    icon: User,
+    icon: markRaw(User),
     color: '#409eff'
   },
   {
     title: '文档数量',
     value: '567',
-    icon: Document,
+    icon: markRaw(Document),
     color: '#67c23a'
   },
   {
     title: '数据报表',
     value: '89',
-    icon: DataBoard,
+    icon: markRaw(DataBoard),
     color: '#e6a23c'
   },
   {
     title: '系统配置',
     value: '12',
-    icon: Setting,
+    icon: markRaw(Setting),
     color: '#f56c6c'
   }
 ])
@@ -172,25 +173,25 @@ const quickActions = ref([
   {
     title: '新建用户',
     type: 'primary' as const,
-    icon: Plus,
+    icon: markRaw(Plus),
     handler: () => ElMessage.info('新建用户功能开发中...')
   },
   {
     title: '查看报表',
     type: 'success' as const,
-    icon: View,
+    icon: markRaw(View),
     handler: () => ElMessage.info('查看报表功能开发中...')
   },
   {
     title: '编辑设置',
     type: 'warning' as const,
-    icon: Edit,
+    icon: markRaw(Edit),
     handler: () => ElMessage.info('编辑设置功能开发中...')
   },
   {
     title: '清理缓存',
     type: 'danger' as const,
-    icon: Delete,
+    icon: markRaw(Delete),
     handler: () => {
       ElMessageBox.confirm('确定要清理缓存吗？', '提示', {
         confirmButtonText: '确定',
@@ -213,9 +214,8 @@ const quickActions = ref([
 @use '@/assets/styles/mixins.scss' as mixins;
 
 .home-page {
+  width: 100%;
   padding: vars.$spacing-lg;
-  max-width: 1400px;
-  margin: 0 auto;
 }
 
 .page-header {

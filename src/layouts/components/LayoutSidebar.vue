@@ -76,16 +76,16 @@ const toggleCollapse = () => {
 @use '@/assets/styles/mixins.scss' as mixins;
 
 .layout-sidebar {
-  width: 240px;
+  flex: 0 0 150px;
   background: #fff;
   border-right: 1px solid vars.$border-light;
   display: flex;
   flex-direction: column;
   height: calc(100vh - 61px);
-  @include mixins.transition(width);
+  @include mixins.transition(all);
 
   &.collapsed {
-    width: 64px;
+    flex: 0 0 64px;
   }
 }
 

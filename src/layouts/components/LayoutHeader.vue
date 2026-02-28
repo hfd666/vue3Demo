@@ -84,6 +84,7 @@ import {
   House,
   Document
 } from '@element-plus/icons-vue'
+import { markRaw } from 'vue'
 import { ElMessageBox } from 'element-plus/es'
 
 // 导入类型和工具
@@ -122,12 +123,12 @@ const menuItems = ref<MenuItem[]>([
   {
     path: '/',
     title: '首页',
-    icon: House
+    icon: markRaw(House)
   },
   {
     path: '/dashboard',
     title: '仪表盘',
-    icon: Document
+    icon: markRaw(Document)
   }
 ])
 

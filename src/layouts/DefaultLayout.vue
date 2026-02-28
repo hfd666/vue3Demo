@@ -43,6 +43,7 @@ import { useLayoutStore } from '@/stores/layout'
  * 布局配置
  */
 const layoutStore = useLayoutStore()
+const route = useRoute()
 
 /**
  * 是否显示侧边栏
@@ -50,9 +51,14 @@ const layoutStore = useLayoutStore()
 const showSidebar = computed(() => layoutStore.showSidebar)
 
 /**
+ * 是否首页
+ */
+const isHomePage = computed(() => route.path === '/' || route.name === 'Home')
+
+/**
  * 是否显示面包屑
  */
-const showBreadcrumb = computed(() => layoutStore.showBreadcrumb)
+const showBreadcrumb = computed(() => layoutStore.showBreadcrumb && !isHomePage.value)
 </script>
 
 <style lang="scss" scoped>
@@ -78,6 +84,7 @@ const showBreadcrumb = computed(() => layoutStore.showBreadcrumb)
   flex-direction: column;
   min-height: 0; /* 关键修复：允许 flex 子元素收缩 */
   height: calc(100vh - 61px);
+  overflow-x: auto;
 
   &.with-sidebar {
     margin-left: 0;
@@ -86,7 +93,6 @@ const showBreadcrumb = computed(() => layoutStore.showBreadcrumb)
 
 .page-content {
   flex: 1;
-  padding: vars.$spacing-lg;
   overflow-y: auto;
   background-color: vars.$bg-color-page;
 }
@@ -100,12 +106,5 @@ const showBreadcrumb = computed(() => layoutStore.showBreadcrumb)
 .fade-enter-from,
 .fade-leave-to {
   opacity: 0;
-}
-
-/* 响应式设计 */
-@include mixins.respond-to(xs) {
-  .page-content {
-    padding: vars.$spacing-md;
-  }
 }
 </style>

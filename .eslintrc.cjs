@@ -73,7 +73,7 @@ module.exports = {
   },
   rules: {
     'vue/multi-word-component-names': 'off',
-    '@typescript-eslint/no-explicit-any': 'warn',
+    '@typescript-eslint/no-explicit-any': 'off',
     '@typescript-eslint/no-unused-vars': [
       'error',
       {
@@ -82,13 +82,5 @@ module.exports = {
       }
     ]
   },
-  overrides: [
-    {
-      // 为类型声明文件和类型定义文件禁用 no-explicit-any 规则
-      files: ['**/*.d.ts', 'src/types/**/*.ts'],
-      rules: {
-        '@typescript-eslint/no-explicit-any': 'off'
-      }
-    }
-  ]
+  overrides: []
 }

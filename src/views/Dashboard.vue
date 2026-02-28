@@ -88,6 +88,7 @@ import {
   ArrowDown,
   TrendCharts
 } from '@element-plus/icons-vue'
+import { markRaw } from 'vue'
 
 /**
  * 概览数据
@@ -96,7 +97,7 @@ const overviewData = ref([
   {
     title: '今日访问',
     value: '2,345',
-    icon: User,
+    icon: markRaw(User),
     color: '#409eff',
     trend: 'up' as const,
     changePercent: 12.5
@@ -104,7 +105,7 @@ const overviewData = ref([
   {
     title: '新增用户',
     value: '156',
-    icon: Document,
+    icon: markRaw(Document),
     color: '#67c23a',
     trend: 'up' as const,
     changePercent: 8.2
@@ -112,7 +113,7 @@ const overviewData = ref([
   {
     title: '系统负载',
     value: '68%',
-    icon: Monitor,
+    icon: markRaw(Monitor),
     color: '#e6a23c',
     trend: 'down' as const,
     changePercent: 3.1
@@ -120,7 +121,7 @@ const overviewData = ref([
   {
     title: '错误数量',
     value: '12',
-    icon: Warning,
+    icon: markRaw(Warning),
     color: '#f56c6c',
     trend: 'down' as const,
     changePercent: 15.6
@@ -216,9 +217,8 @@ const getStatusType = (status: string) => {
 @use '@/assets/styles/mixins.scss' as mixins;
 
 .dashboard-page {
+  width: 100%;
   padding: vars.$spacing-lg;
-  max-width: 1400px;
-  margin: 0 auto;
 }
 
 .page-header {

@@ -1,7 +1,7 @@
 <template>
   <div id="app">
-    <!-- 使用默认布局 -->
-    <DefaultLayout />
+    <router-view v-if="route.meta.layout === 'blank'" />
+    <DefaultLayout v-else />
   </div>
 </template>
 
@@ -15,6 +15,8 @@ import { useLayoutStore, useUserStore } from '@/stores'
 /**
  * 初始化应用
  */
+const route = useRoute()
+
 const initApp = () => {
   const layoutStore = useLayoutStore()
   const userStore = useUserStore()
@@ -23,7 +25,7 @@ const initApp = () => {
   layoutStore.initLayout()
 
   // 初始化用户信息
-  userStore.initUserInfo()
+  userStore.initAuthState()
 }
 
 // 应用启动时初始化
