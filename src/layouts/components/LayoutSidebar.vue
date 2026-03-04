@@ -17,7 +17,7 @@
     </div>
 
     <!-- 折叠按钮 -->
-    <div class="sidebar-footer">
+    <!-- <div class="sidebar-footer">
       <el-button
         :icon="isCollapsed ? Expand : Fold"
         text
@@ -26,12 +26,12 @@
       >
         {{ isCollapsed ? '' : '收起菜单' }}
       </el-button>
-    </div>
+    </div> -->
   </aside>
 </template>
 
 <script setup lang="ts">
-import { Expand, Fold } from '@element-plus/icons-vue'
+// import { Expand, Fold } from '@element-plus/icons-vue'
 import SidebarMenuItem from './SidebarMenuItem.vue'
 
 // 导入状态和组合式函数
@@ -66,9 +66,9 @@ const { menuItems } = useSidebarMenus()
 /**
  * 切换折叠状态
  */
-const toggleCollapse = () => {
-  layoutStore.toggleSidebarCollapse()
-}
+// const toggleCollapse = () => {
+//   layoutStore.toggleSidebarCollapse()
+// }
 </script>
 
 <style lang="scss" scoped>
@@ -76,7 +76,7 @@ const toggleCollapse = () => {
 @use '@/assets/styles/mixins.scss' as mixins;
 
 .layout-sidebar {
-  flex: 0 0 150px;
+  flex: 0 0 170px;
   background: #fff;
   border-right: 1px solid vars.$border-light;
   display: flex;

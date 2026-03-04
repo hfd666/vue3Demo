@@ -5,7 +5,7 @@
 
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 import { markRaw } from 'vue'
-import { House, Grid, MessageBox, Upload } from '@element-plus/icons-vue'
+import { House, Grid, MessageBox, Upload, List, Document } from '@element-plus/icons-vue'
 import { ElMessage } from 'element-plus'
 import { useUserStore } from '@/stores/user'
 
@@ -42,8 +42,8 @@ const routes: RouteRecordRaw[] = [
   },
   {
     path: '/',
-    name: 'Home',
-    component: () => import('@/views/Home.vue'),
+    name: 'Dashboard',
+    component: () => import('@/views/Dashboard.vue'),
     meta: {
       title: '首页',
       icon: markRaw(House),
@@ -51,33 +51,90 @@ const routes: RouteRecordRaw[] = [
     }
   },
   {
-    path: '/table-demo',
-    name: 'TableDemo',
-    component: () => import('@/views/demos/TableDemo.vue'),
+    path: '/demos',
+    name: 'Demos',
+    redirect: '/demos/table',
     meta: {
-      title: '表格示例',
+      title: '组件演示',
       icon: markRaw(Grid),
       order: 2
-    }
+    },
+    children: [
+      {
+        path: 'table',
+        name: 'TableDemo',
+        component: () => import('@/views/demos/TableDemo.vue'),
+        meta: {
+          title: '表格示例',
+          icon: markRaw(Grid)
+        }
+      },
+      {
+        path: 'multi-header',
+        name: 'MultiHeaderTableDemo',
+        component: () => import('@/views/demos/MultiHeaderTableDemo.vue'),
+        meta: {
+          title: '多表头示例',
+          icon: markRaw(List)
+        }
+      },
+      {
+        path: 'table-span',
+        name: 'TableSpanDemo',
+        component: () => import('@/views/demos/TableSpanDemo.vue'),
+        meta: {
+          title: '单元格合并',
+          icon: markRaw(Grid)
+        }
+      },
+      {
+        path: 'dialog',
+        name: 'DialogDemo',
+        component: () => import('@/views/demos/DialogDemo.vue'),
+        meta: {
+          title: '弹窗示例',
+          icon: markRaw(MessageBox)
+        }
+      },
+      {
+        path: 'upload',
+        name: 'UploadDemo',
+        component: () => import('@/views/demos/UploadDemo.vue'),
+        meta: {
+          title: '上传示例',
+          icon: markRaw(Upload)
+        }
+      }
+    ]
   },
   {
-    path: '/dialog-demo',
-    name: 'DialogDemo',
-    component: () => import('@/views/demos/DialogDemo.vue'),
+    path: '/detail-ledger',
+    name: 'DetailLedger',
+    component: () => import('@/views/DetailLedger.vue'),
     meta: {
-      title: '弹窗示例',
-      icon: markRaw(MessageBox),
+      title: '明细账',
+      icon: markRaw(List),
       order: 3
     }
   },
   {
-    path: '/upload-demo',
-    name: 'UploadDemo',
-    component: () => import('@/views/demos/UploadDemo.vue'),
+    path: '/summary-ledger',
+    name: 'SummaryLedger',
+    component: () => import('@/views/SummaryLedger.vue'),
     meta: {
-      title: '上传示例',
-      icon: markRaw(Upload),
+      title: '汇总账',
+      icon: markRaw(Document),
       order: 4
+    }
+  },
+  {
+    path: '/utilization-list',
+    name: 'UtilizationList',
+    component: () => import('@/views/UtilizationList.vue'),
+    meta: {
+      title: '利用清单',
+      icon: markRaw(Document),
+      order: 5
     }
   },
   {

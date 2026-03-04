@@ -29,35 +29,6 @@
       </el-card>
     </div>
 
-    <!-- 图表区域 -->
-    <el-row :gutter="24" class="charts-section">
-      <el-col :xs="24" :lg="16">
-        <el-card header="访问趋势" class="chart-card">
-          <div class="chart-placeholder">
-            <el-icon :size="48" color="#ddd">
-              <TrendCharts />
-            </el-icon>
-            <p>图表组件占位符</p>
-            <p class="chart-note">可以集成 ECharts 或其他图表库</p>
-          </div>
-        </el-card>
-      </el-col>
-
-      <el-col :xs="24" :lg="8">
-        <el-card header="系统状态" class="chart-card">
-          <div class="status-list">
-            <div v-for="status in systemStatus" :key="status.name" class="status-item">
-              <div class="status-indicator" :class="status.status"></div>
-              <div class="status-info">
-                <div class="status-name">{{ status.name }}</div>
-                <div class="status-value">{{ status.value }}</div>
-              </div>
-            </div>
-          </div>
-        </el-card>
-      </el-col>
-    </el-row>
-
     <!-- 数据表格 -->
     <div class="table-section">
       <el-card header="最近活动">
@@ -79,15 +50,7 @@
 </template>
 
 <script setup lang="ts">
-import {
-  User,
-  Document,
-  Monitor,
-  Warning,
-  ArrowUp,
-  ArrowDown,
-  TrendCharts
-} from '@element-plus/icons-vue'
+import { User, Document, Monitor, Warning, ArrowUp, ArrowDown } from '@element-plus/icons-vue'
 import { markRaw } from 'vue'
 
 /**
@@ -127,38 +90,6 @@ const overviewData = ref([
     changePercent: 15.6
   }
 ])
-
-/**
- * 系统状态
- */
-const systemStatus = ref([
-  {
-    name: 'Web 服务器',
-    value: '运行正常',
-    status: 'online'
-  },
-  {
-    name: '数据库',
-    value: '运行正常',
-    status: 'online'
-  },
-  {
-    name: 'Redis 缓存',
-    value: '运行正常',
-    status: 'online'
-  },
-  {
-    name: '消息队列',
-    value: '连接异常',
-    status: 'warning'
-  },
-  {
-    name: '文件存储',
-    value: '运行正常',
-    status: 'online'
-  }
-])
-
 /**
  * 最近活动
  */

@@ -132,17 +132,6 @@ const menuItems = ref<MenuItem[]>([
     path: '/',
     title: '首页',
     icon: House
-  },
-  {
-    path: '/dashboard',
-    title: '仪表盘',
-    icon: DataBoard,
-    children: [
-      {
-        path: '/dashboard/analytics',
-        title: '数据分析'
-      }
-    ]
   }
 ])
 ```

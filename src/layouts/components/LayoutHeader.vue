@@ -31,12 +31,12 @@
       <!-- 右侧：用户操作区域 -->
       <div class="header-right">
         <!-- 全屏切换 -->
-        <el-tooltip content="全屏" placement="bottom">
+        <el-tooltip v-if="false" content="全屏" placement="bottom">
           <el-button :icon="FullScreen" text @click="toggleFullscreen" />
         </el-tooltip>
 
         <!-- 主题切换 -->
-        <el-tooltip content="主题设置" placement="bottom">
+        <el-tooltip v-if="false" content="主题设置" placement="bottom">
           <el-button :icon="Setting" text @click="openThemeSettings" />
         </el-tooltip>
 
@@ -81,8 +81,8 @@ import {
   User,
   ArrowDown,
   SwitchButton,
-  House,
-  Document
+  House
+  // Document
 } from '@element-plus/icons-vue'
 import { markRaw } from 'vue'
 import { ElMessageBox } from 'element-plus/es'
@@ -124,11 +124,6 @@ const menuItems = ref<MenuItem[]>([
     path: '/',
     title: '首页',
     icon: markRaw(House)
-  },
-  {
-    path: '/dashboard',
-    title: '仪表盘',
-    icon: markRaw(Document)
   }
 ])
 
@@ -244,6 +239,7 @@ const handleUserCommand = (command: string) => {
   display: flex;
   justify-content: center;
   max-width: 600px;
+  display: none;
 
   :deep(.el-menu) {
     border-bottom: none;

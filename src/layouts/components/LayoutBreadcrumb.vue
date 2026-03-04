@@ -41,18 +41,12 @@ const breadcrumbItems = computed<BreadcrumbItem[]>(() => {
   }
 
   // 根据路由生成面包屑
-  const pathSegments = route.path.split('/').filter(Boolean)
-  let currentPath = ''
+  const matched = route.matched.filter(item => item.meta?.title)
 
-  pathSegments.forEach((segment, index) => {
-    currentPath += `/${segment}`
-
-    // 获取路由元信息中的标题
-    const title = (route.matched[index + 1]?.meta?.title as string) || segment
-
+  matched.forEach(matchedRoute => {
     items.push({
-      path: currentPath,
-      title
+      path: matchedRoute.path,
+      title: (matchedRoute.meta?.title as string) || matchedRoute.name?.toString() || ''
     })
   })
 
