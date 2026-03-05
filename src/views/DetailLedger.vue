@@ -256,4 +256,14 @@ const tableData = ref([
   max-width: 100%;
   overflow: hidden;
 }
+
+/* 表头样式 */
+:deep(.el-table th) {
+  background-color: #f5f7fa !important;
+}
+
+:deep(.el-table th .cell) {
+  font-weight: 600;
+  color: #606266;
+}
 </style>
